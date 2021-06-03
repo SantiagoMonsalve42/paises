@@ -6,7 +6,12 @@ import { PaisService } from '../../services/pais.service';
 @Component({
   selector: 'app-por-capital',
   templateUrl: './por-capital.component.html',
-  styles: [
+  styles:[
+    `
+    li{
+      cursor: pointer;
+    }
+    `
   ]
 })
 export class PorCapitalComponent {
@@ -14,7 +19,8 @@ export class PorCapitalComponent {
   termino: string ="";
   hayError: boolean=false;
   listaPaises: Country[]=[];
-  
+  mostrarSugerencias: boolean= false;
+  listaPaisesSugerencias:Country[]=[];
   //inyeccion de dependencia servise
   constructor(private paisService: PaisService){}
 
@@ -34,6 +40,13 @@ export class PorCapitalComponent {
   
   sugerencias(termino: string):void{
     this.hayError=false;
-    //TODO crear sugerencias
+    this.termino= termino;
+    this.mostrarSugerencias=true;
+    this.paisService.buscarPorCapital(termino)
+    .subscribe((paises) => {
+      this.listaPaisesSugerencias=paises.splice(0,5);
+    },(error) => {
+      this.listaPaisesSugerencias=[];
+    })
   }
 }

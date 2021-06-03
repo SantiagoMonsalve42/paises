@@ -1,1 +1,36 @@
-<p>por-region works!</p>
+
+<h2>Por Region: <small>{{regionActiva| titlecase }}</small></h2>
+<hr>
+<div class="animate__animated animate__bounceInDown">
+    <h4>Seleccione la region</h4>
+    <div class="row">
+        <div class="col">
+            <!--
+                FORMA PARA HACER VALIDACIONES Y AGREGAR CLASES DINAMICAMENTE
+                [class.btn-primary]="region === regionActiva"
+                FORMA PARA EVALUAR SEGUN LAS CONDICONES EN EL TS
+                [ngClass]="{
+                        'btn-primary': regionActiva === region,
+                        'btn-outline-primary': regionActiva !== region
+                    }"
+            -->
+            <button *ngFor="let region of regiones"
+                    [class]="getClassCss(region)"
+                    (click)="activarRegion(region)">
+
+                {{region | titlecase}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="hayError" 
+    class="alert alert-danger animate__animated animate__shakeX animate__faster">
+    No se encontro nada con el término "{{termino | lowercase}}"
+</div>
+
+<div class="row" *ngIf="listaPaises.length > 0" >
+    <div class="col animate__animated animate__zoomInDown">
+        <app-pais-tabla [listaPaises]="listaPaises"></app-pais-tabla>
+    </div>
+</div>

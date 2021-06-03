@@ -1,26 +1,42 @@
 
 <h2>Por país</h2>
 <hr>
-
-<div class="row">
-    <div class="col">
-        <app-pais-input
-        (onEnter)="buscar( $event )"
-        (onDebounce)="sugerencias($event)"
-        placeholder="Buscar por país.."
-        ></app-pais-input>
+<div class="animate__animated animate__bounceInDown">
+    <div class="row">
+        <div class="col">
+            <app-pais-input
+            (onEnter)="buscar( $event )"
+            (onDebounce)="sugerencias($event)"
+            placeholder="Buscar por país.."
+            ></app-pais-input>
+        </div>
     </div>
+    <ul class="list-group"
+        *ngIf="mostrarSugerencias">
+        <li class="list-group-item list-group-item-action"
+            *ngFor="let paisSugerido of listaPaisesSugerencias">
+            <a  class="nav-link"
+                [routerLink]="['/pais',paisSugerido.alpha2Code]">
+                {{paisSugerido.name}} 
+            </a>
+        </li>
+        <li class="list-group-item list-group-item-action"
+              (click)="buscar(termino)"  >
+            <a  class="nav-link">
+               Buscar "{{termino}}"
+            </a>
+        </li>
+    </ul>
 </div>
-
 <hr>
 
 <div *ngIf="hayError" 
-    class="alert alert-danger">
+    class="alert alert-danger animate__animated animate__shakeX animate__faster">
     No se encontro nada con el término "{{termino | lowercase}}"
 </div>
 
 <div class="row" *ngIf="listaPaises.length > 0" >
-    <div class="col">
+    <div class="col animate__animated animate__zoomInDown">
         <app-pais-tabla [listaPaises]="listaPaises"></app-pais-tabla>
     </div>
 </div>
